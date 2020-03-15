@@ -1,0 +1,20 @@
+import numpy as np
+##二进制方法
+def turnbits(n,p):
+    b=np.zeros(p,dtype=np.int)
+    b[0]=n%2
+    for j in np.arange(1,p):
+        n=(n-b[j-1])/2
+        if n !=0:
+            b[j]=n%2
+        else:
+            break
+    return b.astype(bool)
+##迭代方法
+def turnbits_rec(p):
+    if p==1:
+         return np.array([False,True]).reshape((2,1))
+    else:
+        chan1=np.c_[turnbits_rec(p-1),np.zeros(2**(p-1)).astype(bool).reshape((2**(p-1),1))]
+        chan2=np.c_[turnbits_rec(p-1),np.ones(2**(p-1)).astype(bool).reshape((2**(p-1),1))]
+        return np.r_[chan1,chan2]
